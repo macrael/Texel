@@ -6,10 +6,19 @@ x is it python 2 or (3)?
 	x 3
 x where is the console?
 	x ^`
-* get an event listener that reacts to mouse movement
-* This is harder than hoped :(
-	* raw mouse events are not part of the API.
-	* textcommands seem to be able to get event info, but mine isn't.
+x get an event listener that reacts to mouse movement
+	x impossible
+x This is harder than hoped :(
+	x raw mouse events are not part of the API.
+	x textcommands seem to be able to get event info, but mine isn't.
+		x required having the trigger be a mouse event
+x mousemap file calles text command
+x text command moves mouse on click and release to nearest boundary
+x give prefernce to ahead instead of behind
+x it's bad UI anyway, but for some reason trying to move the point on_hover breaks things.
+* make which kind of boundary modifiable based on if you are holding the shift key.
+* handle blank lines better, shouldn't snap to a different line?
+* release 1.0
 
 
 
