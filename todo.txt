@@ -22,7 +22,13 @@ x it's bad UI anyway, but for some reason trying to move the point on_hover brea
 
 
 
-A Fuzzy Mouse -- magentic mouse?
+Names
+---------
+* A Fuzzy Mouse -- magentic mouse?
+* Mouse Magnet
+* Magnetic Mouse
+* Magic Insert
+* Fuzzy Insert
 
 
 Plugin for sublime text that allows for mouse pointer insertion to magnet to the beginning/ending of words etc.
