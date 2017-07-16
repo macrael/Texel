@@ -1,0 +1,10 @@
+[
+  {
+    "button": "button1",
+    "count": 1,
+    "modifiers": ["ctrl","option"],
+    "press_command": "snapped_cursor",
+    "command": "snapped_cursor",
+    "args": {"press": false}
+  },
+]

@@ -1,0 +1,34 @@
+Texel
+x Get a plugin in sublime text
+x determiine if a ln will work to the ~/code dir
+x determine if it reloads automatically or if I have to restart
+x is it python 2 or (3)?
+	x 3
+x where is the console?
+	x ^`
+* get an event listener that reacts to mouse movement
+* This is harder than hoped :(
+	* raw mouse events are not part of the API.
+	* textcommands seem to be able to get event info, but mine isn't.
+
+
+
+A Fuzzy Mouse -- magentic mouse?
+
+
+Plugin for sublime text that allows for mouse pointer insertion to magnet to the beginning/ending of words etc.
+
+hold down a meta key while moving your mouse over text and the cursor will stick to the closest end of a word. if you click it's inserted there instead of under the mouse.
+
+This should work with selection etc.
+
+* hold down a key to make cursor placement more precise.
+	* This seems doable
+	* save the original insertion point
+	* when you hold down the key combo, (or hit once to enter a selection mode?) move the cursor to the magnet near the curosr
+	* clicking clears the mode and inserts it there
+	* hitting esc puts it back where it was
+		* or the key combo again if we are doing a mode?
+		* or typing anythign?
+	* I think that it's probably best as a hold it down, release to cancel, click to insert.
+* This already works more or less with double clicking on a word to highlight it, puts you in a word-wise selection mode.
