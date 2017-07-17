@@ -5,14 +5,15 @@ import sublime_plugin
 
 def closestBoundaryToPoint(view, point):
 	search_classes = sublime.CLASS_WORD_START | sublime.CLASS_WORD_END
-	fore = view.find_by_class(point, True, search_classes)
-	aft = view.find_by_class(point, False, search_classes)
+	closest_point = point
+	if not view.classify(point) & search_classes:
+		fore = view.find_by_class(point, True, search_classes)
+		aft = view.find_by_class(point, False, search_classes)
 
-	closest_point = None
-	if (fore - point <= point - aft):
-		closest_point = fore
-	else:
-		closest_point = aft
+		if (fore - point <= point - aft):
+			closest_point = fore
+		else:
+			closest_point = aft
 
 	return closest_point
 

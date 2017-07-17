@@ -16,10 +16,15 @@ x mousemap file calles text command
 x text command moves mouse on click and release to nearest boundary
 x give prefernce to ahead instead of behind
 x it's bad UI anyway, but for some reason trying to move the point on_hover breaks things.
+x not selecting a single character correctly.
+	x solution was to not search if already at a boundary.
+* get the keys working again.
 * make which kind of boundary modifiable based on if you are holding the shift key.
 * handle blank lines better, shouldn't snap to a different line?
 * release 1.0
 
+
+"One method of getting that information is to create an EventListener and listen for the drag_select command being executed, but there may be another way." -- it's possible that doesn't come through if ctrl-option is being held down, could try for modal.
 
 
 Names
