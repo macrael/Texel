@@ -5,6 +5,7 @@ import sublime_plugin
 
 please_start_now = False
 
+
 def closest_boundary_to_point(view, point):
     search_classes = sublime.CLASS_WORD_START | sublime.CLASS_WORD_END
     closest_point = point
@@ -19,6 +20,7 @@ def closest_boundary_to_point(view, point):
 
     return closest_point
 
+
 class BeginSnappedCursorDragCommand(sublime_plugin.TextCommand):
     def run(self, edit, **kwargs):
         global please_start_now
@@ -27,6 +29,7 @@ class BeginSnappedCursorDragCommand(sublime_plugin.TextCommand):
 
     def want_event(self):
         return True
+
 
 class SnappedCursorDragEventListener(sublime_plugin.ViewEventListener):
     initial_a = None
@@ -51,7 +54,7 @@ class SnappedCursorDragEventListener(sublime_plugin.ViewEventListener):
 
             a = closest_boundary_to_point(self.view, first_region.a)
             b = closest_boundary_to_point(self.view, first_region.b)
-            snapped_region = sublime.Region(a,b)
+            snapped_region = sublime.Region(a, b)
 
             if self.initial_a == None:
                 self.initial_a = a
