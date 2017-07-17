@@ -5,7 +5,7 @@ import sublime_plugin
 
 please_start_now = False
 
-def closestBoundaryToPoint(view, point):
+def closest_boundary_to_point(view, point):
 	search_classes = sublime.CLASS_WORD_START | sublime.CLASS_WORD_END
 	closest_point = point
 	if not view.classify(point) & search_classes:
@@ -18,12 +18,6 @@ def closestBoundaryToPoint(view, point):
 			closest_point = aft
 
 	return closest_point
-
-def move_insertion_to_nearest_boundary(view, point):
-	insertion_point = closestBoundaryToPoint(view, point)
-	view.sel().clear()
-	view.sel().add(sublime.Region(insertion_point))
-
 
 class BeginSnappedCursorDragCommand(sublime_plugin.TextCommand):
 	def run(self, edit, **kwargs):
@@ -45,7 +39,6 @@ class SnappedCursorDragEventListener(sublime_plugin.ViewEventListener):
 	def on_selection_modified(self):
 		global please_start_now
 		if (self.view.is_in_edit() and (self.is_snap_dragging or please_start_now)):
-
 			if please_start_now:
 				please_start_now = False
 				self.is_snap_dragging = True
@@ -56,8 +49,8 @@ class SnappedCursorDragEventListener(sublime_plugin.ViewEventListener):
 			# TODO: handle multiple selections correctly.
 			first_region = selection[0]
 
-			a = closestBoundaryToPoint(self.view, first_region.a)
-			b = closestBoundaryToPoint(self.view, first_region.b)
+			a = closest_boundary_to_point(self.view, first_region.a)
+			b = closest_boundary_to_point(self.view, first_region.b)
 			snapped_region = sublime.Region(a,b)
 
 			if self.initial_a == None:
@@ -68,7 +61,7 @@ class SnappedCursorDragEventListener(sublime_plugin.ViewEventListener):
 				# This is a heuristic to check if we are in the same modification that was
 				# started with BeginSnappedCursorDragCommand. There's no way
 				# to know when a specifc drag_select event is complete so checking
-				# to see if both of the ends of the selection have changed is a good check.
+				# that either end of the selection is the same is a good guess.
 				selection.subtract(first_region)
 				selection.add(snapped_region)
 			else:
