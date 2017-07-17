@@ -3,7 +3,7 @@
 import sublime
 import sublime_plugin
 
-is_doing_it_right = False
+please_start_now = False
 
 def closestBoundaryToPoint(view, point):
 	search_classes = sublime.CLASS_WORD_START | sublime.CLASS_WORD_END
@@ -24,68 +24,52 @@ def move_insertion_to_nearest_boundary(view, point):
 	view.sel().clear()
 	view.sel().add(sublime.Region(insertion_point))
 
-class SnappedCursorSwitchCommand(sublime_plugin.TextCommand):
-	def want_event(self):
-		return True
 
-	def run(self,edit):
-		print(self)
-		print("WE DURNING ")
-
-class SnappedCursorCommand(sublime_plugin.TextCommand):
-	def run(self, edit, event, press=True):
-		print("SNAPPING dAT YA")
-		print(press)
-		global is_doing_it_right
-		is_doing_it_right = press
-		# if press:
-		# 	print("dsruning")
-		# 	self.view.run_command('drag_select', event)
-		point = self.view.window_to_text((event['x'], event['y']))
-		move_insertion_to_nearest_boundary(self.view, point)
+class BeginSnappedCursorDragCommand(sublime_plugin.TextCommand):
+	def run(self, edit, **kwargs):
+		global please_start_now
+		please_start_now = True
+		self.view.run_command("drag_select", kwargs)
 
 	def want_event(self):
 		return True
 
-
-class DraggingEventListener(sublime_plugin.ViewEventListener):
-	is_dragging = False
+class SnappedCursorDragEventListener(sublime_plugin.ViewEventListener):
+	initial_a = None
+	initial_b = None
+	is_snap_dragging = False
 
 	def want_event(self):
 		True
 
-	def on_selection_mortified(self):
-		print("selection Modified")
-		if (self.view.is_in_edit()):
-			print("modifying selection")
-			print(self.view.is_in_edit()) # This is exactly what I need, during the drag it's true.
+	def on_selection_modified(self):
+		global please_start_now
+		if (self.view.is_in_edit() and (self.is_snap_dragging or please_start_now)):
+
+			if please_start_now:
+				please_start_now = False
+				self.is_snap_dragging = True
+				self.initial_a = None
+				self.initial_b = None
+
 			selection = self.view.selection
 			# TODO: handle multiple selections correctly.
 			first_region = selection[0]
-			print(first_region)
 
 			a = closestBoundaryToPoint(self.view, first_region.a)
 			b = closestBoundaryToPoint(self.view, first_region.b)
 			snapped_region = sublime.Region(a,b)
 
-			print(snapped_region)
+			if self.initial_a == None:
+				self.initial_a = a
+				self.initial_b = b
 
-			selection.subtract(first_region)
-			selection.add(snapped_region)
-
-		# word_region = self.view.word(first_region)
-		# sview.sel().add(word_region)
-
-		# if not self.is_dragging:
-		# 	print("INITIAL DRAG START")
-		# 	self.is_dragging = True
-
-	def on_modified(self):
-		print("MODIFIED")
-
-
-	def on_text_command(self, command_name, args):
-		print("HI")
-		print("Text Command")
-		print(command_name)
-		print(args)
+			if self.initial_a == a or self.initial_b == b:
+				# This is a heuristic to check if we are in the same modification that was
+				# started with BeginSnappedCursorDragCommand. There's no way
+				# to know when a specifc drag_select event is complete so checking
+				# to see if both of the ends of the selection have changed is a good check.
+				selection.subtract(first_region)
+				selection.add(snapped_region)
+			else:
+				self.is_snap_dragging = False
