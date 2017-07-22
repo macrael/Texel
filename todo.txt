@@ -24,6 +24,12 @@ x Works with selection (thanks @OdatNurd on the sublime forums!)
 * release 1.0
 * make which kind of boundary modifiable based on if you are holding the shift key.
 * snapping cmd-click to get multiple select would be nice too.
+* If you start a selection, you should be able to make it snap wide by invoking shift+ctrl+opt+click
+* maybe have it pivot around a period if you invert the selection? SELECTED.something -> else.SELECTED
+* Maybe make the snapping algorithm be pixel distance based rather than character based. Part of the point is the proportional font.
+* should it be possible to click inbetween non-letter characters?
+	* fooo)]; right now it's impossible to click between )]
+	* It might be right that you have to click in the middle of a word for this to do anything? might solve the other line problems.
 
 
 "One method of getting that information is to create an EventListener and listen for the drag_select command being executed, but there may be another way." -- it's possible that doesn't come through if ctrl-option is being held down, could try for modal.
